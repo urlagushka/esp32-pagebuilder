@@ -235,4 +235,4 @@ extern "C" void app_main(void)
 ```
 
 Result:
-![alt text]((https://github.com/urlagushka/esp32-pagebuilder/blob/main/dashboard.png)
+![alt text](https://github.com/urlagushka/esp32-pagebuilder/blob/main/dashboard.png)
