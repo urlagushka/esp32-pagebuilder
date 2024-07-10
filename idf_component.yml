@@ -1,0 +1,6 @@
+version: "1.0.0"
+description: "PageBuilder ESP-IDF framework. Turkin Nikolai."
+url: "https://github.com/urlagushka/esp32-pagebuilder"
+license: "Apache"
+dependencies:
+  idf: ">=5.0"
