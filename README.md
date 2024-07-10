@@ -1,5 +1,4 @@
 # PageBuilder
----
 Component for ESP-IDF framework, compatibility only with ESP32.
 PageBuilder it's software for fast making and prototyping ESP32 projects, using block and widgets.
 Uses the following ESP-IDF dependencies and C++ STD:
@@ -17,7 +16,6 @@ Uses the following ESP-IDF dependencies and C++ STD:
 * map
 
 ## Widget types
----
 ### LiveLabel
 Label that updates in runtime without update page.
 
@@ -138,7 +136,6 @@ class MyHTTPServer:
 ```
 
 ## Full main.cpp example
----
 ```cpp
 #include "freeRTOS\freeRTOS.h"
 #include "freeRTOS\task.h"
