@@ -161,12 +161,12 @@ class MyHTTPServer:
             mypage.set_header("OKB78 DashBoard");
 
             auto stepper = new kb::Block("StepperMotor", "Stepper motor control");
-            auto on = new Button(stepper, "ON");
-            auto off = new Button(stepper, "OFF");
-            auto step_set = new ButtonField(stepper, "Step control", "SET");
-            auto speed_set = new ButtonField(stepper, "Speed control", "SET");
-            auto step_get = new LiveLavel(stepper, "Step", 500);
-            auto speed_get = new LiveLabel(stepper, "Speed", 500);
+            auto on = new kb::Button(stepper, "ON");
+            auto off = new kb::Button(stepper, "OFF");
+            auto step_set = new kb::ButtonField(stepper, "Step control", "SET");
+            auto speed_set = new kb::ButtonField(stepper, "Speed control", "SET");
+            auto step_get = new kb::LiveLavel(stepper, "Step", 500);
+            auto speed_get = new kb::LiveLabel(stepper, "Speed", 500);
 
             stepper->add_widget(on);
             stepper->add_widget(off);
@@ -184,10 +184,10 @@ class MyHTTPServer:
             bind(z, some_function);
 
             auto sensors = new kb::Block("Sensors", "Sensor states");
-            auto encoder = new LiveLavel(sensors, "Encoder", 500);
-            auto left_cap = new LiveLabel(sensors, "Left cap", 500);
-            auto middle_cap = new LiveLabel(sensors, "Middle cap", 500);
-            auto right_cap = new LiveLabel(sensors, "Right cap", 500);
+            auto encoder = new kb::LiveLavel(sensors, "Encoder", 500);
+            auto left_cap = new kb::LiveLabel(sensors, "Left cap", 500);
+            auto middle_cap = new kb::LiveLabel(sensors, "Middle cap", 500);
+            auto right_cap = new kb::LiveLabel(sensors, "Right cap", 500);
 
             sensors->add_widget(encoder);
             sensors->add_widget(left_cap);
