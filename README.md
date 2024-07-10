@@ -1,4 +1,4 @@
-# PageBuilder
+# PageBuilder v1.0.0
 Component for ESP-IDF framework, compatibility only with ESP32.
 PageBuilder it's software for fast making and prototyping ESP32 projects, using block and widgets.
 Uses the following ESP-IDF dependencies and C++ STD:
