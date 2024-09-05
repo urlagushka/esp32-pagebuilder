@@ -1,4 +1,4 @@
-# PageBuilder v1.0.0
+# PageBuilder v1.2
 Component for ESP-IDF framework, compatibility only with ESP32.
 PageBuilder it's software for fast making and prototyping ESP32 projects, using block and widgets.
 Uses the following ESP-IDF dependencies and C++ STD:
@@ -15,16 +15,26 @@ Uses the following ESP-IDF dependencies and C++ STD:
 * cassert
 * map
 
+## v1.2
+Added XML queue.
+Now you can choose between STA and AP wifi mode.
+
+## XML queue
+For optimize server request and don't spam, i use queue for xml requests.
+IN/INOUT requests pushing front, OUT requests pushing back.
+Every ```delta time``` server make one request from queue.
+![alt text](https://github.com/urlagushka/esp32-pagebuilder/blob/main/xmlqueue.png)
+
 ## Widget types
 ### LiveLabel
 Label that updates in runtime without update page.
 
 Syntax example:
 ```cpp
-// LiveLabel(const Block *, const std::string &, std::size_t)
+// LiveLabel(const Block * src, c_str_ref_t label, std::size_t dtime)
 // 1. Parent block
 // 2. Label
-// 3. Timeout in ms
+// 3. Delta time in ms
 
 std::string addf()
 {
@@ -38,12 +48,12 @@ class MyHTTPServer:
     public:
         void setup_page() override
         {
-            kb::PageBuilder page_ex(kb::get_style());
+            kb::PageBuilder page_ex(kb::get_style(), 100);
             mypage.set_title("Dashboard");
             mypage.set_header("LiveLavel Example");
             
             auto block_ex = new kb::Block("HeaderEX", InfoEX);
-            auto livelabel_ex = new kb::LiveLabel(block_ex, "Label", 1000);
+            auto livelabel_ex = new kb::LiveLabel(block_ex, "Label", 100);
             block_ex->add_widget(livelabel_ex);
             bind(livelabel_ex, addf);
 
@@ -78,7 +88,7 @@ class MyHTTPServer:
     public:
         void setup_page() override
         {
-            kb::PageBuilder page_ex(kb::get_style());
+            kb::PageBuilder page_ex(kb::get_style(), 100);
             mypage.set_title("Dashboard");
             mypage.set_header("ButtonField Example");
             
@@ -117,7 +127,7 @@ class MyHTTPServer:
     public:
         void setup_page() override
         {
-            kb::PageBuilder page_ex(kb::get_style());
+            kb::PageBuilder page_ex(kb::get_style(), 100);
             mypage.set_title("Dashboard");
             mypage.set_header("Button Example");
             
@@ -156,7 +166,7 @@ class MyHTTPServer:
     public:
         void setup_page() override
         {
-            kb::PageBuilder mypage(kb::get_style());
+            kb::PageBuilder mypage(kb::get_style(), 100); // Delta time to send request
             mypage.set_title("Dashboard");
             mypage.set_header("OKB78 DashBoard");
 
@@ -165,7 +175,7 @@ class MyHTTPServer:
             auto off = new kb::Button(stepper, "OFF");
             auto step_set = new kb::ButtonField(stepper, "Step control", "SET");
             auto speed_set = new kb::ButtonField(stepper, "Speed control", "SET");
-            auto step_get = new kb::LiveLavel(stepper, "Step", 500);
+            auto step_get = new kb::LiveLavel(stepper, "Step", 500); // Delta time to add in XML queue
             auto speed_get = new kb::LiveLabel(stepper, "Speed", 500);
 
             stepper->add_widget(on);
@@ -221,7 +231,7 @@ class MyHTTPServer:
 
 extern "C" void app_main(void)
 {
-    MyHTTPServer web("SSID", "PASSWORD");
+    MyHTTPServer web("SSID", "PASSWORD", kb::WIFITYPE::AP); // ::AP || ::STA
     ESP_ERROR_CHECK(web.init());
     ESP_ERROR_CHECK(web.connect());
     web.setup_page();
