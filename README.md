@@ -168,7 +168,7 @@ class MyHTTPServer:
         {
             kb::PageBuilder mypage(kb::get_style(), 100); // Delta time to send request
             mypage.set_title("Dashboard");
-            mypage.set_header("OKB78 DashBoard");
+            mypage.set_header("DashBoard");
 
             auto stepper = new kb::Block("StepperMotor", "Stepper motor control");
             auto on = new kb::Button(stepper, "ON");
