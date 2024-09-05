@@ -1,19 +1,7 @@
 # PageBuilder v1.2
 Component for ESP-IDF framework, compatibility only with ESP32.
 PageBuilder it's software for fast making and prototyping ESP32 projects, using block and widgets.
-Uses the following ESP-IDF dependencies and C++ STD:
-* esp_check.h
-* esp_http_server.h
-* esp_wifi.h
-* esp_err.h
-* esp_event.h
-* esp_log.h
-* esp_system.h
-* nvs_flash.h
-* string
-* vector
-* cassert
-* map
+Uses the following ESP-IDF dependencies and C++ STD.
 
 ## v1.2
 Added XML queue.
