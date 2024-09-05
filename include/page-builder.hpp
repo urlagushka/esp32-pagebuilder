@@ -15,7 +15,7 @@ namespace kb
     {
         public:
             PageBuilder() = delete;
-            PageBuilder(c_str_ref_t stylesheet);
+            PageBuilder(c_str_ref_t stylesheet, std::size_t dtime);
             
             void set_title(c_str_ref_t label);
             void set_header(c_str_ref_t label);
@@ -30,6 +30,8 @@ namespace kb
             str_t stylesheet_;
             str_t body_;
             str_t script_;
+
+            std::size_t dtime_;
     };
 }
 

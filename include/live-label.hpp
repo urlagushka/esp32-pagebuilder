@@ -15,10 +15,10 @@ namespace kb
     {
         using Widget::Widget;
         public:
-            LiveLabel(const Block * src, c_str_ref_t label, std::size_t delay);
+            LiveLabel(const Block * src, c_str_ref_t label, std::size_t dtime);
             const std::pair< str_t, str_t > generate() const override;
         private:
-            std::size_t delay_;
+            std::size_t dtime_;
     };
 }
 

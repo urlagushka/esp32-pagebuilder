@@ -23,15 +23,27 @@ namespace
     }
 }
 
-kb::HTTPServer::HTTPServer(const char * ssid, const char * password):
+kb::HTTPServer::HTTPServer(const char * ssid, const char * password, WIFITYPE wtype):
+    wtype_(wtype),
     server_(NULL),
     wifi_config_(),
     wifi_event_(),
     uri_get_(),
     uri_post_()
 {
-    strcpy((char *) wifi_config_.sta.ssid, (char *) ssid);
-    strcpy((char *) wifi_config_.sta.password, (char *) password);
+    if (wtype_ == WIFITYPE::STA)
+    {
+        strcpy((char *) wifi_config_.sta.ssid, (char *) ssid);
+        strcpy((char *) wifi_config_.sta.password, (char *) password);
+    }
+    else if (wtype_ == WIFITYPE::AP)
+    {
+        strcpy((char *) wifi_config_.ap.ssid, (char *) ssid);
+        strcpy((char *) wifi_config_.ap.password, (char *) password);
+        wifi_config_.ap.max_connection = 4;
+        wifi_config_.ap.authmode = WIFI_AUTH_WPA_WPA2_PSK;
+    }
+
     uri_get_ = httpd_uri_t{
         .uri = "/*",
         .method = HTTP_GET,
@@ -61,21 +73,39 @@ esp_err_t kb::HTTPServer::init()
     wifi_event_ = xEventGroupCreate();
     state.add_error(esp_netif_init());
     state.add_error(esp_event_loop_create_default());
-    esp_netif_create_default_wifi_sta();
+
     esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_CONNECTED, &on_wifi_connected, &server_);
     esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, &on_wifi_disconnected, &server_);
 
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    state.add_error(esp_wifi_init(&cfg));
-    state.add_error(esp_wifi_set_mode(WIFI_MODE_STA));
-    state.add_error(esp_wifi_set_config(WIFI_IF_STA, &wifi_config_));
-    state.add_error(esp_wifi_start());
+    if (wtype_ == WIFITYPE::STA)
+    { 
+        esp_netif_create_default_wifi_sta();
+        wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+        state.add_error(esp_wifi_init(&cfg));
+        state.add_error(esp_wifi_set_mode(WIFI_MODE_STA));
+        state.add_error(esp_wifi_set_config(WIFI_IF_STA, &wifi_config_));
+        state.add_error(esp_wifi_start());
+    }
+    else if (wtype_ == WIFITYPE::AP)
+    {
+        esp_netif_create_default_wifi_ap();
+        wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+        state.add_error(esp_wifi_init(&cfg));
+        state.add_error(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+        state.add_error(esp_wifi_set_mode(WIFI_MODE_AP));
+        state.add_error(esp_wifi_set_config(WIFI_IF_AP, &wifi_config_));
+        state.add_error(esp_wifi_start());
+    }
 
     return state.error;
 }
 
 esp_err_t kb::HTTPServer::connect()
 {
+    if (wtype_ == WIFITYPE::AP)
+    {
+        return ESP_OK;
+    }
     return esp_wifi_connect();
 }
 
@@ -100,21 +130,21 @@ esp_err_t kb::HTTPServer::start()
 
 void kb::HTTPServer::bind(const Widget * wget, void (*addf)(c_str_ref_t))
 {
-    assert(wget == nullptr);
+    assert(wget != nullptr);
     assert(wget->get_type() == WIDGET_TYPE::IN);
     in_addf_.insert(std::make_pair(wget->get_hash(), addf));
 }
 
 void kb::HTTPServer::bind(const Widget * wget, str_t (*addf)())
 {
-    assert(wget == nullptr);
+    assert(wget != nullptr);
     assert(wget->get_type() == WIDGET_TYPE::OUT);
     out_addf_.insert(std::make_pair(wget->get_hash(), addf));
 }
 
 void kb::HTTPServer::bind(const Widget * wget, str_t (*addf)(c_str_ref_t))
 {
-    assert(wget == nullptr);
+    assert(wget != nullptr);
     assert(wget->get_type() == WIDGET_TYPE::INOUT);
     inout_addf_.insert(std::make_pair(wget->get_hash(), addf));
 }

@@ -8,11 +8,11 @@ const std::pair< kb::str_t, kb::str_t > kb::Button::generate() const
 {
     str_t body_part = "";
     body_part += "<div><p>";
-    body_part += "<button class=\"btns\" onclick=\"" + hash_ + "_func()\">" + label_ + "</button> ";
+    body_part += "<button class=\"btns\" onclick=\"F" + hash_ + "()\">" + label_ + "</button> ";
     body_part += "<p></div>";
 
     str_t script_part = "";
-    script_part += "function " + hash_ + "_func(data){var xhttp = new XMLHttpRequest();";
-    script_part += "xhttp.open(\"GET\", \"" + hash_ + "\", true);xhttp.send();}";
+    script_part += "function F" + hash_ + "() {";
+    script_part += "xml_queue.unshift({hash: \"" + hash_ + "\", type: WIDGET_TYPE.IN, data: \"\"}); }";
     return std::make_pair(body_part, script_part);
 }

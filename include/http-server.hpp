@@ -17,11 +17,16 @@ namespace kb
     using str_ref_t = str_t &;
     using c_str_ref_t = const str_t &;
 
+    enum class WIFITYPE
+    {
+        STA, AP
+    };
+
     class HTTPServer
     {        
         public:
             HTTPServer() = delete;
-            HTTPServer(const char * ssid, const char * password);
+            HTTPServer(const char * ssid, const char * password, WIFITYPE wtype);
             HTTPServer(const HTTPServer &) = delete;
             HTTPServer(HTTPServer &&) = delete;
             HTTPServer operator=(const HTTPServer &) = delete;
@@ -46,6 +51,7 @@ namespace kb
 
             inline static str_t page_ = "";
         private:
+            WIFITYPE wtype_;
             httpd_handle_t server_;
             wifi_config_t wifi_config_;
             EventGroupHandle_t wifi_event_;

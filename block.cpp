@@ -19,7 +19,7 @@ const std::pair< kb::str_t, kb::str_t > kb::Block::generate() const
 {
     str_t incl_body = "";
     str_t incl_script = "";
-    for (auto wget: wgets_)
+    for (const auto & wget: wgets_)
     {
         auto resp = wget->generate();
         incl_body += resp.first;

@@ -53,14 +53,6 @@ const std::string kb::get_style()
             gap: 10px;
         }
 
-        @media only screen and (max-width: 845px)
-        {
-            [class*="block"]
-            {
-                width: 100%;
-            }
-        }
-
         input[type=text]
         {
             width: 65%;
