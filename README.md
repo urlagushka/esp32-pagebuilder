@@ -40,16 +40,13 @@ class MyHTTPServer:
             mypage.set_title("Dashboard");
             mypage.set_header("LiveLavel Example");
             
-            auto block_ex = new kb::Block("HeaderEX", InfoEX);
-            auto livelabel_ex = new kb::LiveLabel(block_ex, "Label", 100);
-            block_ex->add_widget(livelabel_ex);
-            bind(livelabel_ex, addf);
+            auto block_ex = kb::Block("HeaderEX", InfoEX);
+            auto livelabel_ex = kb::LiveLabel(block_ex, "Label", 100);
+            block_ex.add_widget(&livelabel_ex);
+            bind(&livelabel_ex, addf);
 
-            page_ex.add_block(livelabel_ex);
+            page_ex.add_block(&livelabel_ex);
             page_ = page_ex.get_page();
-
-            delete block_ex;
-            delete livelabel_ex;
         }
 };
 ```
@@ -80,16 +77,13 @@ class MyHTTPServer:
             mypage.set_title("Dashboard");
             mypage.set_header("ButtonField Example");
             
-            auto block_ex = new kb::Block("HeaderEX", InfoEX);
-            auto buttonfield_ex = new kb::ButtonField(block_ex, "Artice", "Label");
-            block_ex->add_widget(buttonfield_ex);
-            bind(buttonfield_ex, addf);
+            auto block_ex = kb::Block("HeaderEX", InfoEX);
+            auto buttonfield_ex = kb::ButtonField(block_ex, "Artice", "Label");
+            block_ex.add_widget(&buttonfield_ex);
+            bind(&buttonfield_ex, addf);
 
-            page_ex.add_block(block_ex);
+            page_ex.add_block(&block_ex);
             page_ = page_ex.get_page();
-
-            delete block_ex;
-            delete buttonfield_ex;
         }
 };
 ```
@@ -119,16 +113,13 @@ class MyHTTPServer:
             mypage.set_title("Dashboard");
             mypage.set_header("Button Example");
             
-            auto block_ex = new kb::Block("HeaderEX", InfoEX);
-            auto button_ex = new kb::Button(block_ex, "Label");
-            block_ex->add_widget(button_ex);
-            bind(button_ex, addf);
+            auto block_ex = kb::Block("HeaderEX", InfoEX);
+            auto button_ex = kb::Button(block_ex, "Label");
+            block_ex.add_widget(&button_ex);
+            bind(&button_ex, addf);
 
-            page_ex.add_block(block_ex);
+            page_ex.add_block(&block_ex);
             page_ = page_ex.get_page();
-
-            delete block_ex;
-            delete button_ex;
         }
 };
 ```
@@ -158,62 +149,48 @@ class MyHTTPServer:
             mypage.set_title("Dashboard");
             mypage.set_header("DashBoard");
 
-            auto stepper = new kb::Block("StepperMotor", "Stepper motor control");
-            auto on = new kb::Button(stepper, "ON");
-            auto off = new kb::Button(stepper, "OFF");
-            auto step_set = new kb::ButtonField(stepper, "Step control", "SET");
-            auto speed_set = new kb::ButtonField(stepper, "Speed control", "SET");
-            auto step_get = new kb::LiveLavel(stepper, "Step", 500); // Delta time to add in XML queue
-            auto speed_get = new kb::LiveLabel(stepper, "Speed", 500);
+            auto stepper = kb::Block("StepperMotor", "Stepper motor control");
+            auto on = kb::Button(stepper, "ON");
+            auto off = kb::Button(stepper, "OFF");
+            auto step_set = kb::ButtonField(stepper, "Step control", "SET");
+            auto speed_set = kb::ButtonField(stepper, "Speed control", "SET");
+            auto step_get = kb::LiveLavel(stepper, "Step", 500); // Delta time to add in XML queue
+            auto speed_get = kb::LiveLabel(stepper, "Speed", 500);
 
-            stepper->add_widget(on);
-            stepper->add_widget(off);
-            stepper->add_widget(step_set);
-            stepper->add_widget(speed_set);
-            stepper->add_widget(step_get);
-            stepper->add_widget(speed_get);
+            stepper.add_widget(&on);
+            stepper.add_widget(&off);
+            stepper.add_widget(&step_set);
+            stepper.add_widget(&speed_set);
+            stepper.add_widget(&step_get);
+            stepper.add_widget(&speed_get);
 
-            mypage.add_block(stepper);
+            mypage.add_block(&stepper);
 
-            bind(on, some_function);
-            bind(off, some_function);
-            bind(x, some_function);
-            bind(y, some_function);
-            bind(z, some_function);
+            bind(&on, some_function);
+            bind(&off, some_function);
+            bind(&x, some_function);
+            bind(&y, some_function);
+            bind(&z, some_function);
 
-            auto sensors = new kb::Block("Sensors", "Sensor states");
-            auto encoder = new kb::LiveLavel(sensors, "Encoder", 500);
-            auto left_cap = new kb::LiveLabel(sensors, "Left cap", 500);
-            auto middle_cap = new kb::LiveLabel(sensors, "Middle cap", 500);
-            auto right_cap = new kb::LiveLabel(sensors, "Right cap", 500);
+            auto sensors = kb::Block("Sensors", "Sensor states");
+            auto encoder = kb::LiveLavel(sensors, "Encoder", 500);
+            auto left_cap = kb::LiveLabel(sensors, "Left cap", 500);
+            auto middle_cap = kb::LiveLabel(sensors, "Middle cap", 500);
+            auto right_cap = kb::LiveLabel(sensors, "Right cap", 500);
 
-            sensors->add_widget(encoder);
-            sensors->add_widget(left_cap);
-            sensors->add_widget(middle_cap);
-            sensors->add_widget(right_cap);
+            sensors.add_widget(&encoder);
+            sensors.add_widget(&left_cap);
+            sensors.add_widget(&middle_cap);
+            sensors.add_widget(&right_cap);
             
-            mypage.add_block(sensors);
+            mypage.add_block(&sensors);
 
-            bind(encoder, some_function);
-            bind(left_cap, some_function);
-            bind(middle_cap, some_function);
-            bind(right_cap, some_function);
+            bind(&encoder, some_function);
+            bind(&left_cap, some_function);
+            bind(&middle_cap, some_function);
+            bind(&right_cap, some_function);
 
             page_ = mypage.get_page();
-            
-            delete stepper;
-            delete on;
-            delete off;
-            delete step_set;
-            delete speed_set;
-            delete step_get;
-            delete speed_get;
-            
-            delete sensors;
-            delete encoder;
-            delete left_cap;
-            delete middle_cap;
-            delete right_cap;
         }
 };
 
